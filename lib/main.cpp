@@ -1,5 +1,6 @@
 #include<iostream>
 #include"min_cut.hpp"
+#include"gh_tree.hpp"
 #include<queue>
 #include<climits>
 #include"stdlib.h"
@@ -8,10 +9,10 @@ using namespace std;
 
 int main() {
   srand(time(NULL));
-  int n = 8;
+  int n = 6;
   graph G = rand_connex_graph(n);
   print_graph(&G);
 
-  cut C = min_cut(&G, 0, n-1);
-  print_cut(&C);
+  graph gh_T = gh_tree(&G);
+  print_graph(&gh_T);
 }

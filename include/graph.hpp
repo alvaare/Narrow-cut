@@ -6,7 +6,7 @@ using namespace std;
 
 struct cut {
   set<int> nodes;
-  double value;
+  double value = 0;
 };
 
 struct graph {

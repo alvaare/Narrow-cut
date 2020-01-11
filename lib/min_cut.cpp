@@ -104,13 +104,9 @@ cut find_cut(double** flow, graph* G, int s, int t) {
   int n = G->n;
   graph nG(n);
   for (int i=0; i<n; i++)
-    for (int j=0; j<n; j++) {
+    for (int j=0; j<n; j++)
       if (G->edges[i][j]>0 and abs(flow[i][j])+eps<G->edges[i][j])
         nG.edges[i][j]=1;
-      /*nG.edges[i][j] = G->edges[i][j];
-      if (abs(flow[i][j]) > eps)
-        nG.edges[i][j]-=abs(flow[i][j]);*/
-    }
 
   C.nodes.insert(s);
   queue<int> active;
@@ -124,10 +120,16 @@ cut find_cut(double** flow, graph* G, int s, int t) {
         active.push(i);
       }
   }
-  print_flow(flow, n);
+
   for (int i=0; i<n; i++)
     C.value+=flow[s][i];
   return C;
+}
+
+void delete_flow(double** flow, int n) {
+  for (int i=0; i<n; i++)
+    delete [] flow[i];
+  delete [] flow;
 }
 
 cut min_cut(graph* G, int s, int t){
@@ -143,5 +145,8 @@ cut min_cut(graph* G, int s, int t){
       clear_node(u, G, nodes, flow, &active_nodes);
     }
   }
-  return find_cut(flow, G, s, t);
+
+  cut C = find_cut(flow, G, s, t);
+  delete_flow(flow, n);
+  return C;
 }

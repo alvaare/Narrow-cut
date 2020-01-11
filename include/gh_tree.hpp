@@ -5,8 +5,8 @@
 #include"graph.hpp"
 using namespace std;
 
-graph gh_tree(graph* G);
+graph gh_tree(graph*);
 
-set<int> narrow_cuts_values(graph* G);
+set<int> narrow_cuts_values(graph*);
 
 #endif
