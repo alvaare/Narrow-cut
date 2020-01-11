@@ -7,6 +7,6 @@ using namespace std;
 
 graph gh_tree(graph*);
 
-set<int> narrow_cuts_values(graph*);
+set<double> narrow_cut_values(graph*, int, int);
 
 #endif

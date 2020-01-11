@@ -7,8 +7,6 @@
 #include"min_cut.hpp"
 using namespace std;
 
-const double eps = 1e-5;
-
 struct node {
   int id;
   double excess = 0;

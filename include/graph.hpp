@@ -4,6 +4,8 @@
 #include<set>
 using namespace std;
 
+const double eps = 1e-5;
+
 struct cut {
   set<int> nodes;
   double value = 0;
