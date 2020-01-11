@@ -1,5 +1,6 @@
 TARGET := build/main
 EXEC := main
+TEMP := temp.txt
 
 IDIR := include
 LDIR := lib
@@ -23,4 +24,4 @@ $(BDIR)/%.o: $(LDIR)/%.cpp
 .PHONY: clean
 clean:
 	@echo " Cleaning...";
-	$(RM) -r $(BDIR) $(EXEC)
+	$(RM) -r $(BDIR) $(EXEC) $(TEMP)

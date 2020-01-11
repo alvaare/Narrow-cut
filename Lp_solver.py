@@ -3,7 +3,7 @@ import numpy as np
 import numpy.random as rd
 import queue
 
-n = 10
+n = 8
 s,t = rd.choice(n,2,replace=False)
 
 def rand_graph():
@@ -132,6 +132,39 @@ prob += sortant == entrant + 1
 
 prob.solve()
 print("Status:", LpStatus[prob.status])
-for v in prob.variables():
-    if v.name[0] == "x":
-        print(v.name, "=", v.varValue)
+
+def from_name_to_edge(name):
+    i = 0;
+    while name[i] != "(":
+        i+=1
+    i+=1
+    u = ""
+    while name[i] != ",":
+        u+=name[i]
+        i+=1
+    v = ""
+    i+=2
+    while name[i] != ")":
+        v+=name[i]
+        i+=1
+    return int(u), int(v)
+
+def from_variables_to_graph(variables):
+    G = [[0 for _ in range(n)] for _ in range(n)]
+    for v in variables:
+        if v.name[0] == "x":
+            i, j = from_name_to_edge(v.name)
+            G[i][j] = v.varValue
+            G[j][i] = v.varValue
+    return G
+
+def store_graph(G):
+    f = open("temp.txt", "w")
+    f.write(str(n)+"\n")
+    print(G)
+    for l in G:
+        for c in l:
+            f.write(str(c)+"\n")
+    f.close()
+
+store_graph(from_variables_to_graph(prob.variables()))
