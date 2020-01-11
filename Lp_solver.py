@@ -3,9 +3,8 @@ import numpy as np
 import numpy.random as rd
 import queue
 
-n = 8
-s,t = rd.choice(n,2,replace=False)
-
+n = 20
+s,t = 0,1
 def rand_graph():
     G = [[rd.binomial(1,0.5) for _ in range(n)] for _ in range(n)]
     for i in range(n):
