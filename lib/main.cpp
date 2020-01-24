@@ -9,15 +9,15 @@
 using namespace std;
 
 int main() {
+  graph G = get_solution();
+  print_graph(&G);
+
+  int n = G.n;
   int s = 0;
   int t = 1;
 
-  graph G = get_solution();
-  int n = G.n;
-  print_graph(&G);
-
   graph gh_T = gh_tree(&G);
-  print_graph(&gh_T);
+  //print_graph(&gh_T);
 
   cout << "The set contains: ";
   set<double> S = narrow_cut_values(&gh_T, s, t);

@@ -3,10 +3,10 @@ import numpy as np
 import numpy.random as rd
 import queue
 
-n = 20
-s,t = 0,1
+n = 100
+s,t = 0,n-1
 def rand_graph():
-    G = [[rd.binomial(1,0.5) for _ in range(n)] for _ in range(n)]
+    G = [[rd.randint(0,3) for _ in range(n)] for _ in range(n)]
     for i in range(n):
         for j in range(i, n):
             if i==j:
@@ -24,7 +24,7 @@ def is_connected(G):
         if (not visited[v]):
             visited[v]=True
             for j in range(n):
-                if G[v][j] == 1 and not visited[j]:
+                if G[v][j] > 0 and not visited[j]:
                     q.put(j)
     for b in visited:
         if b == 0:
@@ -42,8 +42,8 @@ def make_sets():
     flow_v = set()
     flow_t = set()
     for i in range(n):
-        for j in range(i):
-            if (G[i][j]==1):
+        for j in range(i+1, n):
+            if (G[i][j]>0):
                 edges.add((i,j))
                 flow_t.add((i,j))
                 flow_t.add((j,i))
@@ -56,18 +56,22 @@ def make_sets():
 def delta_plus(v):
     res = set()
     for a in range(n):
-        if G[a][v] == 1:
-            res.add((a,v))
+        if G[v][a] > 0:
+            res.add((v,a))
     return res
 
 def delta_minus(v):
     res = set()
     for a in range(n):
-        if G[v][a] == 1:
-            res.add((v,a))
+        if G[a][v] > 0:
+            res.add((a,v))
     return res
 
 G = rand_connected_graph()
+#G = [[0,1,0,1,0,0,0,0],[1,0,1,2,0,0,0,0],[0,1,0,0,2,2,0,1],[1,2,0,0,1,0,2,0],
+#[0,0,2,1,0,2,0,0],[0,0,2,0,2,0,1,0],[0,0,0,2,0,1,0,2],[0,0,1,0,0,0,2,0]]
+#G  = [[0,0,0,2,2,2],[0,0,0,2,1,1],[0,0,0,2,2,2],[2,2,2,0,0,2],[2,1,2,0,0,0],[2,1,2,2,0,0]]
+#G=  [[0, 2, 0, 1, 0, 0], [2, 0, 2, 1, 2, 2], [0, 2, 0, 0, 1, 2], [1, 1, 0, 0, 1, 2], [0, 2, 1, 1, 0, 1], [0, 2, 2, 2, 1, 0]]
 
 print("G= ", G)
 print("s,t = ", s,t)
@@ -86,15 +90,16 @@ prob += lpSum(x)
 for (v,i,j) in flow_v:
     prob += f_v[(v,i,j)] >= 0
     if j < i:
-        prob += f_v[(v,i,j)] <= x[(i,j)]
-    else:
         prob += f_v[(v,i,j)] <= x[(j,i)]
+    else:
+        prob += f_v[(v,i,j)] <= x[(i,j)]
 
 for (i,j) in edges:
     prob += f_t[(i,j)] >= 0
     prob += f_t[(j,i)] >= 0
     prob += f_t[(i,j)] <= x[(i,j)]
     prob += f_t[(j,i)] <= x[(i,j)]
+    #prob += x[(i,j)] <= G[i][j]
 
 for v in range(n):
     if v != s and v != t:
@@ -123,14 +128,14 @@ sortant = lpSum([f_t[a] for a in delta_plus(t)])
 entrant = lpSum([f_t[a] for a in delta_minus(t)])
 prob += sortant == entrant + 1
 
-entrant = lpSum([f_t[a] for a in delta_plus(s)])
-sortant = lpSum([f_t[a] for a in delta_minus(s)])
-prob += sortant == entrant + 1
+sortant = lpSum([f_t[a] for a in delta_plus(s)])
+entrant = lpSum([f_t[a] for a in delta_minus(s)])
+prob += sortant == entrant - 1
 
 #print(prob)
 
 prob.solve()
-print("Status:", LpStatus[prob.status])
+print("Status:", LpStatus[prob.status], value(lpSum(x)))
 
 def from_name_to_edge(name):
     i = 0;

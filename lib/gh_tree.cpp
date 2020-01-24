@@ -6,22 +6,54 @@
 #include"min_cut.hpp"
 using namespace std;
 
+graph construct_gh_tree(int n, int* p, double* f) {
+  graph T(n);
+  for(int i=0; i<n; i++) {
+    T.edges[i][p[i]] = f[i];
+    T.edges[p[i]][i] = f[i];
+  }
+  return T;
+}
+
+void debug_int(int n, int* a) {
+  for (int i=0; i<n; i++) {
+    cout << a[i] << " ";
+  }
+  cout << "\n";
+}
+
+void debug_double(int n, double* a) {
+  for (int i=0; i<n; i++) {
+    cout << a[i] << " ";
+  }
+  cout << "\n";
+}
+
 graph gh_tree(graph* G) {
   int n = G->n;
   int p[n] = {0};
-  graph T(n);
+  double f[n] = {0};
 
   for (int s=1; s<n; s++) {
     int t = p[s];
     cut C = min_cut(G, s, t);
-    T.edges[s][t] = C.value;
-    T.edges[t][s] = C.value;
-    for (int i=s+1; i<n; i++)
-      if (p[i] == t && is_in_cut(&C, i))
-        p[i] = s;
-  }
 
-  return T;
+    f[s] = C.value;
+    for (int i=0; i<n; i++)
+      if (i!=s && p[i] == t && is_in_cut(&C, i))
+        p[i] = s;
+    if (is_in_cut(&C, p[t])) {
+      p[s] = p[t];
+      p[t] = s;
+
+      f[s] = f[t];
+      f[t] = C.value;
+    }
+  }
+  cout << "DEBUGGING\n";
+  //debug_int(n, p);
+  debug_double(n, f);
+  return construct_gh_tree(n, p, f);
 }
 
 set<double> narrow_cut_values(graph* T, int s, int t) {
