@@ -37,7 +37,8 @@ graph gh_tree(graph* G) {
   for (int s=1; s<n; s++) {
     int t = p[s];
     cut C = min_cut(G, s, t);
-
+    cout << s << " " << t << "\n";
+    print_cut(&C);
     f[s] = C.value;
     for (int i=0; i<n; i++)
       if (i!=s && p[i] == t && is_in_cut(&C, i))
@@ -50,8 +51,7 @@ graph gh_tree(graph* G) {
       f[t] = C.value;
     }
   }
-  cout << "DEBUGGING\n";
-  //debug_int(n, p);
+  debug_int(n, p);
   debug_double(n, f);
   return construct_gh_tree(n, p, f);
 }

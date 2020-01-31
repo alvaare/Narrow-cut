@@ -14,10 +14,10 @@ int main() {
 
   int n = G.n;
   int s = 0;
-  int t = 1;
+  int t = n-1;
 
   graph gh_T = gh_tree(&G);
-  //print_graph(&gh_T);
+  print_graph(&gh_T);
 
   cout << "The set contains: ";
   set<double> S = narrow_cut_values(&gh_T, s, t);
