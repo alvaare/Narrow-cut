@@ -50,8 +50,7 @@ void push(node* u, node* v, graph* G, node* nodes, double** flow, pq* a_nodes){
   flow[iv][iu] -= delta;
   u->excess -= delta;
   v->excess += delta;
-  if (v->height < G->n)
-    a_nodes->push(v);
+  a_nodes->push(v);
 }
 
 void relabel(node* u, graph* G, node* nodes, double** flow, pq* a_nodes){

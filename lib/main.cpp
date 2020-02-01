@@ -20,8 +20,8 @@ int main() {
   print_graph(&gh_T);
 
   cout << "The set contains: ";
-  set<double> S = narrow_cut_values(&gh_T, s, t);
-  for (set<double>::iterator it=S.begin(); it!=S.end(); it++)
+  set_double S = narrow_cut_values(&gh_T, s, t);
+  for (set_double::iterator it=S.begin(); it!=S.end(); it++)
     cout << *it << " ";
   cout << "\n";
 }
