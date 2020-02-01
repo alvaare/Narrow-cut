@@ -3,9 +3,10 @@
 #include<string>
 #include<fstream>
 #include"linker.hpp"
+#include <iomanip>
 using namespace std;
 
-graph get_solution() {
+LP_solution get_solution() {
   char command[] = "python Lp_solver.py";
   system(command);
 
@@ -14,7 +15,13 @@ graph get_solution() {
 
   getline(myfile, line);
   int n = stoi(line);
-  graph G(n);
+  getline(myfile, line);
+  int s = stoi(line);
+  getline(myfile, line);
+  int t = stoi(line);
+  LP_solution G(n);
+  G.s=s;
+  G.t=t;
 
   int i = 0, j = 0;
   while (getline(myfile,line)) {
@@ -28,5 +35,19 @@ graph get_solution() {
       j++;
   }
   return G;
+}
 
+void store_LP_solution(LP_solution* x, string file_name) {
+  fstream myfile;
+  myfile.open(file_name, fstream::app);
+  myfile << setprecision(3);
+  int n=x->n;
+  for(int i=0; i<n; i++) {
+    for (int j=0; j<n; j++) {
+      myfile << x->edges[i][j] << " \t";
+    }
+    myfile << "\n";
+  }
+  myfile << "\n";
+  myfile.close();
 }

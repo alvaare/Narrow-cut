@@ -55,30 +55,3 @@ graph gh_tree(graph* G) {
   //debug_double(n, f);
   return construct_gh_tree(n, p, f);
 }
-
-set_double narrow_cut_values(graph* T, int s, int t) {
-  int n = T->n;
-  int father[n];
-
-  bool visited[n] = {false};
-  queue<int> active;
-  visited[s]=true;
-  int u = s;
-  while(u!=t) {
-    for (int v=0; v<n; v++)
-      if (T->edges[u][v] > eps && !visited[v]) {
-        active.push(v);
-        father[v] = u;
-      }
-    visited[u] = true;
-    u = active.front();
-    active.pop();
-  }
-
-  set_double S;
-  while(u!=s) {
-    S.insert(T->edges[u][father[u]]);
-    u = father[u];
-  }
-  return S;
-}

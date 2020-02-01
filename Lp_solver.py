@@ -3,7 +3,7 @@ import numpy as np
 import numpy.random as rd
 import queue
 
-n = 10
+n = 6
 s,t = 0,n-1
 def rand_graph():
     G = [[rd.randint(0,2) for _ in range(n)] for _ in range(n)]
@@ -76,9 +76,11 @@ G = rand_connected_graph()
 #G=  [[0, 1, 0, 0, 1, 0, 0], [1, 0, 0, 0, 0, 1, 1], [0, 0, 0, 1, 1, 1, 0], [0, 0, 1, 0, 1, 1, 1], [1, 0, 1, 1, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0], [0, 1, 0, 1, 0, 0, 0]]
 #G = [[0,1,1,0,0,0],[1,0,1,1,0,1],[1,1,0,1,1,0],[0,1,1,0,1,0],[0,0,1,1,0,1],[0,1,0,0,1,0]]
 #G=  [[0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 1, 0], [1, 0, 0, 1, 0, 1], [0, 0, 1, 0, 0, 0], [0, 1, 0, 0, 0, 1], [0, 0, 1, 0, 1, 0]]
+'''
 print("G= ", G)
 print("s,t = ", s,t)
 print("")
+'''
 
 edges, flow_v, flow_t = make_sets()
 
@@ -138,7 +140,7 @@ prob += sortant == entrant - 1
 #print(prob)
 
 prob.solve()
-print("Status:", LpStatus[prob.status], value(lpSum(x)))
+#print("Status:", LpStatus[prob.status], value(lpSum(x)))
 
 def from_name_to_edge(name):
     i = 0;
@@ -168,6 +170,8 @@ def from_variables_to_graph(variables):
 def store_graph(G):
     f = open("temp.txt", "w")
     f.write(str(n)+"\n")
+    f.write(str(s)+"\n")
+    f.write(str(t)+"\n")
     for l in G:
         for c in l:
             f.write(str(c)+"\n")

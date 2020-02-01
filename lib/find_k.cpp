@@ -5,8 +5,6 @@
 #include"graph.hpp"
 using namespace std;
 
-const double eps = 1e-5;
-
 int gcd(int a, int b) {
   if (b==0)
     return a;

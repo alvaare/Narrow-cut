@@ -84,3 +84,12 @@ void print_cut(cut* C) {
 bool is_in_cut(cut* C, int u) {
   return C->nodes.find(u)!=C->nodes.end();
 }
+
+graph from_LP_solution_to_graph(LP_solution* x) {
+  int n=x->n;
+  graph G(n);
+  for(int i=0; i<n; i++)
+    for(int j=0; j<n; j++)
+      G.edges[i][j] = x->edges[i][j];
+  return G;
+}
