@@ -12,16 +12,35 @@
 using namespace std;
 
 int main() {
-  string file_name = "simple_graphs_with_at_least_two_narrow_cuts.txt";
-  for (int n=6; n<7; n++) {
-    int i=0;
-    while(i<20) {
-      LP_solution x = get_solution();
-      if(find_k(&x) <= 10 && narrow_cut_values(&x).size() > 1) {
+  string file_name = "simple_graphs_with_at_least_two_narrow_cuts_2.txt";
+  int i=0;
+  while(i<20) {
+    LP_solution x = get_solution();
+    cout << "ESSAI\n";
+    if (find_k(&x) <= 10) {
+      cout << "K_CORRECT\n";
+      if(narrow_cut_values(&x).size() > 2) {
         cout << i << "\n";
         store_LP_solution(&x, file_name);
         i++;
       }
     }
   }
+  /*int n=6;
+  LP_solution x(n);
+  x.s=0;
+  x.t=n-1;
+  double edges[n][n] = {{0,0,0,1,0,0},
+                        {0,0,1,1,0,0},
+                        {0,1,0,0,1,1},
+                        {1,1,0,0,1,0},
+                        {0,0,1,1,0,0},
+                        {0,0,1,0,0,0}};
+  for (int i=0; i<n; i++)
+    for (int j=0; j<n; j++)
+      x.edges[i][j] = edges[i][j];
+  int k = find_k(&x);
+  cout << k << "\n";
+  set_double S = narrow_cut_values(&x);
+  print_set_double(&S);*/
 }
