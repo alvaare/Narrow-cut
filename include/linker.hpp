@@ -8,4 +8,6 @@ LP_solution get_solution();
 
 void store_LP_solution(LP_solution*, string);
 
+void store_narrow_cuts(LP_solution*, string);
+
 #endif

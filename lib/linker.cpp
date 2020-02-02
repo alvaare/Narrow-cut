@@ -2,7 +2,10 @@
 #include<stdlib.h>
 #include<string>
 #include<fstream>
+#include<queue>
+#include<set>
 #include"linker.hpp"
+#include"narrow_cut.hpp"
 #include <iomanip>
 using namespace std;
 
@@ -48,6 +51,26 @@ void store_LP_solution(LP_solution* x, string file_name) {
     }
     myfile << "\n";
   }
+  myfile.close();
+}
+
+void store_narrow_cuts(LP_solution* x, string file_name) {
+  fstream myfile;
+  myfile.open(file_name, fstream::app);
+  myfile << setprecision(3);
+
+  queue<cut> Q = narrow_cuts(x);
+  while(!Q.empty()) {
+    cut C = Q.front();
+    Q.pop();
+    myfile << "The narrow cut contains: ";
+    set<int> S = C.nodes;
+    for (set<int>::iterator it=S.begin(); it!=S.end(); it++)
+      myfile << *it << " ";
+    myfile << "\n";
+    myfile << "And its value is: " << C.value << "\n";
+  }
+
   myfile << "\n";
   myfile.close();
 }

@@ -14,14 +14,15 @@ using namespace std;
 int main() {
   string file_name = "simple_graphs_with_at_least_two_narrow_cuts_2.txt";
   int i=0;
-  while(i<20) {
+  while(i<8) {
     LP_solution x = get_solution();
     cout << "ESSAI\n";
     if (find_k(&x) <= 10) {
-      cout << "K_CORRECT\n";
+      cout << i << " K_CORRECT\n";
       if(narrow_cut_values(&x).size() > 2) {
         cout << i << "\n";
         store_LP_solution(&x, file_name);
+        store_narrow_cuts(&x, file_name);
         i++;
       }
     }
