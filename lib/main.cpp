@@ -14,7 +14,7 @@ using namespace std;
 int main() {
   string file_name = "simple_graphs_with_at_least_two_narrow_cuts_2.txt";
   int i=0;
-  while(i<8) {
+  while(i<11) {
     LP_solution x = get_solution();
     cout << "ESSAI\n";
     if (find_k(&x) <= 10) {
